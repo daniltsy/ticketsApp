@@ -7,6 +7,11 @@ export default {
       requests: [],
     };
   },
+  getters: {
+    requests(state) {
+      return state.requests;
+    },
+  },
   mutations: {
     setRequests(state, requests) {
       state.requests = requests;
@@ -18,11 +23,12 @@ export default {
   actions: {
     async create({ commit, dispatch }, payload) {
       try {
-        const token = store.getters.token;
+        const token = store.getters['auth/token'];
         const { data } = await axios.post(
           `/requests.json?auth=${token}`,
           payload
         );
+        commit('addRequest', { ...payload, id: data.name });
         console.log(data);
       } catch (e) {
         console.log(e);

@@ -54,10 +54,13 @@
 </template>
 <script>
   import { useRequestForm } from '@/use/request-form';
+  import { useStore } from 'vuex';
   export default {
     emits: ['created'],
     setup(_, { emit }) {
+      const store = useStore();
       const sumbit = async (values) => {
+        await store.dispatch('request/create', values);
         console.log(values);
         emit('created');
       };
